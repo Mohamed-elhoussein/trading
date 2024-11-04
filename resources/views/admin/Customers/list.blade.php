@@ -36,6 +36,9 @@ Customers List
                 </div>
             </div>
 
+            <div>
+                @include('admin.Customers.model')
+            </div>
 
             <div class="card-body" style="overflow:auto">
                 <table id="alternative-pagination"
@@ -49,6 +52,7 @@ Customers List
                             <th>Phone</th>
                             <th>Country</th>
                             <th>Avtar</th>
+                            <th>Action</th>
 
                             <th>email verified</th>
                             <th>Created At</th>
@@ -65,10 +69,14 @@ Customers List
 </div>
 <!--end row-->
 
+@include('admin.Customers.modelUpdate')
+
 
 @endsection
 @push('js')
 <script>
+
+
 var local = {!! json_encode(App::getLocale()) !!};
 var table = $('#alternative-pagination').DataTable({
     ajax: '{{ route('customer.dataTable') }}',
@@ -79,11 +87,9 @@ var table = $('#alternative-pagination').DataTable({
                 return meta.row + 1;
             }
         },
-        { 'data': 'name' },
-        {
-            'data': 'email'
-        },
-        { 'data': 'phone' },
+        { 'data' : 'name'  ,className: 'name-column' },
+        { 'data' : 'email' , className: 'email-column'},
+        { 'data' : 'phone' , className: 'phone-column' },
 
         { 'data': null,
             render: function(data){
@@ -92,24 +98,48 @@ var table = $('#alternative-pagination').DataTable({
             }
          },
 
-        {
-            'data': null,
-            render: function(data, type, row) {
-                return `
-                    <img src="{{ asset('/') }}/${data.avtar}"
-                    class="small-image" style="height: 50px; width: 50px" onclick="openFullScreen(this)">
+
+
+         {
+             'data': null,
+             render: function(data, type, row) {
+                 return `
+                     <img src="{{ asset('/') }}/${data.avtar}"
+                     class="small-image" style="height: 50px; width: 50px" onclick="openFullScreen(this)">
+                 `;
+             }
+         },
+
+
+         { 'data': null,
+            render: function(data,type,row){
+                var name = 'title_' + local;
+                return `<button type="button"
+                class="btn btn-primary modal_update"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdropupdate"
+                data-customer-id="${data.id}"
+                > edit </button>
+
+                <bottom class="btn btn-danger __delete"  data-customer-id="${data.id}"   >
+                Delete
+                </bottom>
+
                 `;
             }
-        },
+            },
 
-        {
-            'data': null,
-            render: function(data) {
-                let status = data.email_verified == 1 ? 'No' : 'Yes';
-                let editUrl = '{{ route('customer.is_verified', ':id') }}'.replace(':id', data.id);
-                return `<a href="#" class="btn  btn-primary" onclick="confirmDelete('${editUrl}')">${status}</a>`;
-            }
-        },
+         {
+             'data': null,
+             render: function(data) {
+                 let status = data.email_verified == 1 ? 'No' : 'Yes';
+                 let editUrl = '{{ route('customer.is_verified', ':id') }}'.replace(':id', data.id);
+                 return `
+                 <a href="#" class="btn  btn-primary" onclick="confirmDelete('${editUrl}')">${status}</a>`;
+                }
+            },
+
+
 
         {
             'data': 'created_at',
@@ -167,5 +197,6 @@ function confirmDelete(url) {
             });
         }
 </script>
+@include('admin.Customers.script')
 
 @endpush

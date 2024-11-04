@@ -72,11 +72,10 @@ class PeriodGlobalController extends Controller
 
         // Get the validated data, excluding 'id'
         $requestData = $request->except('id');
-
         // Update the Peroid with the validated data
         $Peroid->update($requestData);
-
         // Display success message and redirect to index
+        
         Toastr::success(__('Peroid Global Updated Successfully'), __('Success'));
         return redirect()->route('period.global.index');
     } catch (\Throwable $th) {

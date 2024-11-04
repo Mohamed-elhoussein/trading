@@ -65,3 +65,6 @@ Route::group(['namespace' => 'API'], function() {
 
 
 });
+
+
+Route::post('/api/update-prices', [PriceController::class, 'updatePrices']);

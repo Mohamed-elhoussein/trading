@@ -6,19 +6,19 @@
                 <div class="navbar-brand-box horizontal-logo">
                     <a href="{{ route('dashboard.index') }}" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="{{asset('web/assets/images/logo-sm.png')}}" alt="" height="22">
+                            <img src="" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{asset('web/assets/images/logo-dark.png')}}" alt="" height="17">
+                            <img src="" alt="" height="17">
                         </span>
                     </a>
 
                     <a href="{{ route('dashboard.index') }}" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="{{asset('web/assets/images/logo-sm.png')}}" alt="" height="22">
+                            <img src="" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{asset("web/assets/images/logo-light.png")}}" alt="" height="17">
+                            <img src="" alt="" height="17">
                         </span>
                     </a>
                 </div>
@@ -87,7 +87,7 @@
                                 <!-- item -->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                     <div class="d-flex">
-                                        <img src="{{asset("web/assets/images/users/avatar-2.jpg")}}"
+                                        <img src=""
                                             class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-grow-1">
                                             <h6 class="m-0">Angela Bernier</h6>
@@ -98,7 +98,7 @@
                                 <!-- item -->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                     <div class="d-flex">
-                                        <img src="assets/images/users/avatar-3.jpg"
+                                        <img src=""
                                             class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-grow-1">
                                             <h6 class="m-0">David Grasso</h6>
@@ -109,7 +109,7 @@
                                 <!-- item -->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                     <div class="d-flex">
-                                        <img src="assets/images/users/avatar-5.jpg"
+                                        <img src=""
                                             class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-grow-1">
                                             <h6 class="m-0">Mike Bunch</h6>
@@ -274,7 +274,7 @@
                                     <div
                                         class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-2.jpg"
+                                            <img src=""
                                                 class="me-3 rounded-circle avatar-xs flex-shrink-0"
                                                 alt="user-pic">
                                             <div class="flex-grow-1">
@@ -336,7 +336,7 @@
                                     <div
                                         class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-8.jpg"
+                                            <img src=""
                                                 class="me-3 rounded-circle avatar-xs flex-shrink-0"
                                                 alt="user-pic">
                                             <div class="flex-grow-1">
@@ -376,7 +376,7 @@
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-3.jpg"
+                                            <img src=""
                                                 class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
@@ -403,7 +403,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-2.jpg"
+                                            <img src=""
                                                 class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
@@ -431,7 +431,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-6.jpg"
+                                            <img src=""
                                                 class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
@@ -460,7 +460,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-8.jpg"
+                                            <img src=""
                                                 class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">

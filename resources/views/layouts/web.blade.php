@@ -11,7 +11,23 @@
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('web/assets/images/favicon.ico') }}">
+<style>
+    .menu-dropdown
+    {
+    display: none !important; /* إخفاء القوائم المنسدلة بشكل افتراضي */
+    }
 
+
+.nav-item{
+    display: block !important;
+}
+
+.nav-link{
+    cursor: pointer !important;
+
+}
+
+</style>
 
     <!-- jsvectormap css -->
     <link href="{{ asset('web/assets/libs/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -143,8 +159,9 @@
         <!-- Dashboard init -->
         <script src="{{ asset('web/assets/js/pages/dashboard-ecommerce.init.js') }}"></script>
         @stack('js')
+        @include('layouts.web_ex.mt5')
         <!-- App js -->
-        <script src="{{ asset('web/assets/js/app.js') }}"></script>
+        {{-- <script src="{{ asset('web/assets/js/app.js') }}"></script> --}}
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
@@ -201,7 +218,31 @@
             });
         });
     </script>
+<script>
 
+
+
+document.querySelectorAll('.nav-link').forEach(item => {
+    item.addEventListener('click', function (e) {
+        // منع الانتقال إلى الرابط إذا كان هناك قائمة منسدلة
+        if (this.nextElementSibling && this.nextElementSibling.classList.contains('menu-dropdown')) {
+            e.preventDefault(); // منع الانتقال إلى الرابط
+            // أغلق جميع القوائم الأخرى
+            document.querySelectorAll('.nav-item').forEach(i => {
+                if (i !== this.parentElement) {
+                    i.classList.remove('active');
+                    i.querySelector('.menu-dropdown').style.display = 'none';
+                }
+            });
+
+            // عكس حالة القائمة المنسدلة عند الضغط
+            this.parentElement.classList.toggle('active');
+            const dropdown = this.nextElementSibling;
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+    });
+});
+</script>
 
     </body>
 

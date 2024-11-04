@@ -1,233 +1,262 @@
 @extends('layouts.web')
 @push('css')
+<link rel="stylesheet" href="{{ asset('web/mycss/mycss.css') }}">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 @section('title')
-Orders List
+Stocks List
 @endsection
 @section('content')
 
-<div class="container-fluid">
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <!-- Title Section -->
+                    <h5 class="card-title mb-0 col-sm-8 col-md-10">
+                        Stocks List
+                    </h5>
 
-    <!-- start page title -->
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Orders</h4>
-
-
-
+                    <!-- Buttons Section -->
+                    <div class="col-sm-4 col-md-2 d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary btn-load"
+                         data-bs-toggle="modal"
+                            data-bs-target="#varyingcontentModal" data-bs-whatever="@getbootstrap"> <span
+                                class="d-flex align-items-center new_modal">
+                                <span class="spinner-grow flex-shrink-0" role="status">
+                                    <span class="visually-hidden">+</span>
+                                </span>
+                                <span class="flex-grow-1 ms-2">
+                                    +
+                                </span>
+                            </span></button>
+                        <button type="submit" class="btn btn-outline-primary btn-icon waves-effect waves-light"
+                            id="refresh">
+                            <i class="ri-24-hours-fill"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
+
+    <div class="modal fade exampleModalFullscreen" id="varyingcontentModal" style="" tabindex="-1"
+    aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalFullscreenLabel">Add New User
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
-    <!-- end page title -->
 
+    {{--  --}}
+    {{--  --}}
+
+    <form action="{{ route('orders.store') }}" id="form_add_order" method="POST" enctype="multipart/form-data">
+    @csrf
+    <input type="hidden" name="id" id="order_id" value="">
+    <div class="modal-body">
     <div class="row">
-        <div class="col-lg-12">
-            <div class="card" id="orderList">
-                <div class="card-header border-0">
-                    <div class="row align-items-center gy-3">
-                        <div class="col-sm">
-                            <h5 class="card-title mb-0">Order History</h5>
-                        </div>
-                        <div class="col-sm-auto">
-                            <div class="d-flex gap-1 flex-wrap">
-                                <button type="submit" class="btn btn-outline-primary add-btn" id="refresh"><i
-                                        class="ri-24-hours-fill my-auto"></i></button>
 
-                                <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i
-                                        class="ri-delete-bin-2-line"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body border border-dashed border-end-0 border-start-0">
+    <!--end col-->
+    <div class="form-group">
+        <label for="exampleFormControlSelect1"> customres </label>
+        <select name="customer_id" class="form-control _cuctomer" id="exampleFormControlSelect1">
+        @foreach ($customer as $customer)
+        <option value="{{ $customer->id }}" >{{ $customer->name }}</option>
+        @endforeach
+        </select>
+      </div>
 
-                    <div class="row g-3">
-
-                        <!--end col-->
-
-
-                        <div class="col-xxl-2 col-sm-4">
-                            <div>
-                                <select class="form-control" name="status1" id="status_search">
-                                    <option value="">Status</option>
-                                    <option value="0">All</option>
-                                    @foreach ($orderStatus as $status)
-                                    <option value="{{ $status['id'] }}">
-                                        {{ $status['title'] }}
-                                    </option>
-                                    @endforeach
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <!--end col-->
-                        <div class="col-xxl-1 col-sm-4">
-                            <div>
-                                <button type="button" onclick="status_search()" class="btn btn-primary w-100"> <i
-                                        class="ri-equalizer-fill me-1 align-bottom"></i>
-                                    {{ __('filters') }}
-                                </button>
-                            </div>
-                        </div>
-
-                        <!--end col-->
-                    </div>
-                    <!--end row-->
-
-                </div>
-                <div class="card-body pt-0">
-                    <div>
-                        <table id="alternative-pagination"
-                            class="table nowrap dt-responsive align-middle table-hover table-bordered"
-                            style="width:100%;overflow: scroll">
-                            <thead>
-                                <tr>
-                                    <th>SSH</th>
-                                    <th>ID</th>
-                                    <th>{{ __('full account name') }}</th>
-                                    <th>{{ __('account number') }}</th>
-                                    <th>{{ __('order status') }}</th>
-                                    <th>{{ __('payment period') }}</th>
-                                    <th>{{ __('Bank') }}</th>
-                                    <th>{{ __('phone') }}</th>
-                                    <th>{{ __('total') }}</th>
-                                    <th>{{ __('interest %') }}</th>
-                                    <th>{{ __('actions') }}</th>
-                                    <th>{{ __('created_at') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
         <!--end col-->
-    </div>
-    <!--end row-->
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">  name stocke </label>
+            <label for="asset">Select Asset:</label>
+            <select id="__asset" name="symbol" class="form-control">
+                <option value="">selected...</option>
+                <option value="XAUUSD">Gold (XAUUSD)</option>
+                <option value="XAGUSD">Silver (XAGUSD)</option>
+            </select>
+        </div>
 
+
+
+        <div class="form-group">
+        <label for="exampleInputEmail1">Quantity</label>
+        <input type="number" name="quantity" placeholder="quantity"  class="form-control Quantity" id="exampleInputEmail1">
+      </div>
+
+      <br><br>
+        <div class="form-group" >
+            Total Price: <span class="Total_price_display"></span>
+        </div>
+
+        <br><br>
+        <div class="form-group">
+        <label for="exampleInputEmail1">shipping address</label>
+        <input type="text" name="shipping_address" placeholder="shipping_address" class="form-control Address" id="exampleInputEmail1" >
+      </div>
+
+    <br>
+
+    <div class="col-md-6 ">
+    </div>
+    </div>
+    </div>
+    <!--end col-->
+    <div class="modal-footer">
+    <button type="button" class="btn btn-light close" data-bs-dismiss="modal">Close</button>
+    <button type="submit"  data-bs-dismiss="modal" class="btn btn-primary close">Create</button>
+    </div>
+    </form>
+    </div>
+
+    </div>
+    </div>
+
+
+
+
+
+@include('admin.Orders.modalDelete')
+
+@include('admin.Orders.modalUpdate')
+
+@include('admin.Orders.modalDetails')
+
+
+            <div class="card-body" style="overflow:auto">
+                <table id="alternative-pagination"
+                    class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                    style="width:100%;overflow: scroll">
+                    <thead>
+                        <tr>
+                            <th scope="row">#SSL</th>
+                            <th>customer id</th>
+                            <th>stock id</th>
+                            <th>volume</th>
+                            <th>total amount</th>
+                            <th>order status</th>
+                            <th>Delivery</th>
+                            <th>shipping address</th>
+                            <th>Action</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center t_body">
+
+                        @foreach ($orders as $key=>$order)
+                        <tr>
+                            <td>{{ ++$key}}</td>
+                            <td class="customer_id" customer-id="{{ $order->customer_id }}">
+                                {{ $order->customer->name }}
+                            </td>
+
+                            <td class="stock_id" stock-id="{{ $order->symbol }}">
+                                    {{ $order->symbol }}
+                            </td>
+
+                            <td class="volume" stock-id="{{ $order->symbol }}">
+                                    {{ $order->volume }}
+                            </td>
+
+                            <td >
+                                {{ $order->total_price }}
+                            </td>
+
+                            <td class="order_status">
+                                {{ $order->order_status }}
+                            </td>
+
+                            <td class="_name">
+                                {{ $order->delivery == 1 ? 'Delivered' : 'Pending' }}
+                            </td>
+
+                            <td class="shipping_address">
+                                {{ $order->shipping_address }}
+                            </td>
+
+                            <td>
+                                <button
+                                    order-id="{{ $order->id }}"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#varyingcontentModal_update"
+                                    class="btn btn-warning edit-btn model_update"
+                                    data-id="1"
+                                    data-status="1">
+                                    <i class="bx bxs-edit"></i>
+                                </button>
+
+                                <button order-id="{{ $order->id }}"
+                                type="button" class="btn btn-danger modal_delete"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                <i class="bx bxs-trash"></i>
+                                </button>
+
+                                <bottom  id="ordertHistory"
+                                order-id="{{ $order->id }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModalwalletHistory"
+                                class="btn btn-primary edit-btn model_update">
+                                 <i class="bx bxs-info-circle"></i>
+                                </bottom>
+
+                            </td>
+                            <td>{{ $order->created_at->format("Y-m-d") }}</td>
+                        </tr>
+                    @endforeach
+                        <input type="hidden" id="id_auto" >
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--end col-->
 </div>
 
-
-
 @endsection
+
 @push('js')
+@include('admin.Orders.script')
+
+
+
+
+@if ($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const errors = @json($errors->all());
+            errors.forEach(error => {
+                Toastify({
+                    text: error,
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: 'right',
+                    backgroundColor: "linear-gradient(to right, #FF5F6D, #FFC371)",
+                }).showToast();
+            });
+        });
+    </script>
+@endif
+
+
+
+
+
+@if (session('success'))
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    var locale = '{{ App::getLocale() }}';
-
-    var table = $('#alternative-pagination').DataTable({
-        search: {
-            "regex": true // Enables regex search if needed
-        },
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: '{{ route('order.dataTable', ['id' => '0']) }}', // Default URL
-            type: 'GET',
-            dataSrc: 'data'
-        },
-        columns: [
-            {
-                data: null,
-                render: function(data, type, row, meta) {
-                    return meta.row + 1 + meta.settings._iDisplayStart;
-                }
-            },
-            {
-                data: 'id'
-            },
-            {
-                data: 'full_account_name'
-            },
-            {
-                data: 'account_number'
-            },
-            {
-                data: function(data) {
-                    return '<button disable class="btn btn-sm" style="background-color:' + data.status.backgroud_color + '">' + data.status.title_en + '</button>';
-                }
-            },
-            {
-                data: 'period.title_en',
-                orderable: false
-
-            },
-            {
-                data: 'bank.title_en',
-                orderable: false
-
-            },
-            {
-                data: 'customer.phone',
-                orderable: false
-
-            },
-            {
-                data: 'total',
-                orderable: false
-
-            },
-
-            {
-                data: 'interest'
-            },
-            {
-                        data: null,
-                        render: function(data) {
-                            var url_view='{{route('order.details',["id"=>":id"])}}';
-                            url_view=url_view.replace(':id',data.id);
-
-                            return `
-                        <ul class="list-inline hstack gap-2 mb-0">
-                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
-                                <a href="${url_view}" class="text-primary d-inline-block">
-                                    <i class="ri-eye-fill fs-16"></i>
-                                </a>
-                            </li>
-                        </ul>
-                        `;
-
-                        }
-                    },
-            {
-                data: 'created_at',
-                render: function(data) {
-                    var date = new Date(data);
-                    return !isNaN(date.getTime()) ? date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0') : 'Invalid Date';
-                }
-            }
-        ]
+    document.addEventListener('DOMContentLoaded', function () {
+        Toastify({
+            text: "{{ session('success') }}",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: 'right',
+            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+        }).showToast();
     });
-
-    window.status_search = function() {
-        var select = document.getElementById("status_search");
-        var selectedValue = select.value;
-        var url = '{{ route('order.dataTable', ':id') }}';
-        url = url.replace(':id', selectedValue);
-        table.ajax.url(url).load(); // Reload DataTables with new data
-    };
-
-    $('#refresh').on('click', function() {
-        var url = '{{ route('order.dataTable', ':id') }}';
-        url = url.replace(':id', '0'); // Replace with '0' or any other relevant value
-        table.ajax.url(url).load(); // Reload DataTables with new data
-    });
-});
-
 </script>
-
-
-
-<script src="{{ asset('web/assets/libs/list.pagination.js/list.pagination.min.js') }}"></script>
-
-<!-- ecommerce-order init js -->
-<script src="{{ asset('web/assets/js/pages/ecommerce-order.init.js') }}"></script>
-
+@endif
 @endpush

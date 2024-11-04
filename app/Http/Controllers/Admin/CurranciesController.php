@@ -48,10 +48,10 @@ class CurranciesController extends Controller
 
     public function update(CurrencyUpdateRequest $request)
     {
+        return "sds";
         try {
             // Find the category by ID
             $Currancy = Currancy::findOrFail($request->input('id'));
-
             // Get the validated data, excluding 'id'
             $requestData = $request->except('id');
 

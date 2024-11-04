@@ -2,16 +2,22 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BanksController;
-use App\Http\Controllers\Admin\CountryController ;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Admin\stocksController;
+use App\Http\Controllers\admin\WalletController;
+use App\Http\Controllers\admin\SettingController;
+use App\Http\Controllers\Admin\CountryController ;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CurranciesController;
+use App\Http\Controllers\Admin\Mt5\TradingController;
 use App\Http\Controllers\Admin\OrderStatusController;
+use App\Http\Controllers\Admin\OrderHistoryController;
 use App\Http\Controllers\Admin\PeriodGlobalController;
 use App\Http\Controllers\Admin\InterestCalcsController;
+use App\Http\Controllers\admin\WalleHistorytController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::group(
@@ -22,6 +28,35 @@ Route::group(
         Route::prefix('/dashboard')->group(function(){
         Route::get('/',[DashboardController::class,'index'])->name('dashboard.index');
 
+
+
+         require __DIR__.'/mt5.php';
+
+
+
+
+            Route::get("walletHistory/{id}",[WalleHistorytController::class,"getWalletHistory"])->name("Wallet.History");
+            Route::get("orderHistory/{id}",[OrderHistoryController::class,"getOrderHistory"])->name("order.History");
+            // stocks====================
+            Route::resource("stocks",stocksController::class);
+            // stocks====================
+
+
+            // wallet====================
+            Route::resource("wallet",WalletController::class);
+            // wallet====================
+
+
+            // setting====================
+            Route::resource("setting",SettingController::class);
+            // setting====================
+
+
+
+            Route::controller(TradingController::class)->prefix("mt5")->group(function(){
+                Route::post("sendOrder","sendOrder")->name("Trading/sendOrder");
+                Route::post("closeOrder","closeOrder")->name("Trading/closeOrder");
+            });
 
 
         Route::prefix('period/global')->group(function(){
@@ -133,6 +168,13 @@ Route::group(
 
         Route::prefix('orders')->group(function(){
             Route::get('/list',[OrdersController::class,'index'])->name('orders.index');
+            Route::get('/getPriceStock/{id}',[OrdersController::class,'getPriceStock'])->name('getPriceStock');
+            Route::post('/add',[OrdersController::class,'store'])->name('orders.store');
+            Route::post('/update',[OrdersController::class,'update'])->name('orders.update');
+            Route::get('/Delete/{id}',[OrdersController::class,'destroy'])->name('orders.Delete');
+
+
+
             Route::get('/dataTable/{id?}',[OrdersController::class,'getData'])->name('order.dataTable');
             Route::get('/details/{id}', [OrdersController::class, 'order_details'])->name('order.details');
             Route::post('/change/status/order/{id}',[OrdersController::class, 'order_status'])->name('order.status');
@@ -148,6 +190,9 @@ Route::group(
             Route::get('/dataTable/{id?}',[CustomerController::class,'getData'])->name('customer.dataTable');
             Route::get('/is_verified/{id}', [CustomerController::class, 'is_verified'])->name('customer.is_verified');
             Route::get('/is_approve_id/{id}', [CustomerController::class, 'is_approve_id'])->name('customer.is_approve_id');
+            Route::post('/addCustomer', [CustomerController::class, 'store'])->name('addCustomer');
+            Route::post('/updateCustomer', [CustomerController::class, 'update'])->name('updateCustomer');
+            Route::post('/deleteCustomer', [CustomerController::class, 'delete'])->name('deleteCustomer');
 
         });
 

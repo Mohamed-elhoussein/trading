@@ -1,4 +1,4 @@
-<div class="app-menu navbar-menu">
+<div class=" navbar-menu" style="overflow-x: auto;">
     <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
@@ -43,6 +43,21 @@
                         </ul>
                     </div>
                 </li> <!-- end Dashboard Menu -->
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link @if(request()->is('*/dashboard/orders/list')) active
+                        @else
+
+                        @endif" href="{{ route('stocks.index') }}">
+                        <i class='bx bx-cart'></i><span data-key="t-widgets">Stocks</span>
+                    </a>
+                </li>
+
+                {{-- <li class="nav-item">
+                    <a href="{{ route('stocks.index') }}" class="nav-link
+                     @if(request()->is('*/dashboard/period/global/create')) active @endif"
+                        data-key="t-one-page"> </a>
+                </li> --}}
 
 
 
@@ -180,6 +195,7 @@
                 </li>
 
 
+
                 <li class="nav-item">
                     <a class="nav-link menu-link @if(request()->is('*/dashboard/orders/list')) active
                         @else
@@ -188,6 +204,25 @@
                         <i class='bx bx-cart'></i><span data-key="t-widgets">Orders</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link @if(request()->is('*/dashboard/orders/list')) active
+                        @else
+
+                        @endif" href="{{ route('wallet.index') }}">
+                        <i class='bx bx-cart'></i><span data-key="t-widgets">Wallet</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link @if(request()->is('*/dashboard/orders/list')) active
+                        @else
+
+                        @endif" href="{{ route('setting.index') }}">
+                        <i class='bx bx-cart'></i><span data-key="t-widgets">Setting</span>
+                    </a>
+                </li>
+
+
                 <li class="nav-item">
                     <a class="nav-link menu-link @if(request()->is('*/dashboard/Customer/list')) active
                         @else

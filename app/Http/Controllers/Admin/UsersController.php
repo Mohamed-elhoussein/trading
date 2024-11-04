@@ -17,6 +17,8 @@ class UsersController extends Controller
     ///start types
     public function index()
     {
+
+        // return response()->json(User::all());
         return view('admin.Users.list');
     }
     public function getData()

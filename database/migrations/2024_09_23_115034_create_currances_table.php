@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('currancies', function (Blueprint $table) {
+        Schema::create('currances', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('symble');
-            $table->boolean('status')->default(true);
+            $table->string("name",50);
+            $table->string("symble",10);
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('currancies');
+        Schema::dropIfExists('currances');
     }
 };

@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_status', function (Blueprint $table) {
+        Schema::create('wallet_histories', function (Blueprint $table) {
             $table->id();
-            $table->string('title_ar');
-            $table->string('title_en');
-            $table->integer('persage')->unique();
-            $table->string('backgroud_color');
-            $table->softDeletes();
-
+            $table->foreignId('wallet_id')->constrained()->onDelete('cascade');
+            $table->string('action'); // مثل "إضافة" أو "خصم"
+            $table->decimal('amount', 15, 2);
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_status');
+        Schema::dropIfExists('wallet_histories');
     }
 };

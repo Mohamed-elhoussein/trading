@@ -148,8 +148,6 @@ List Currencies
                             <th scope="row">#SSL</th>
                             <th>Name</th>
                             <th>Symble</th>
-                            <th>Status</th>
-
                             <th>Action</th>
                             <th>Created At</th>
                         </tr>
@@ -189,27 +187,7 @@ List Currencies
 
                 },
 
-                {
-                    'data': null,
-                    render: function(data, row, type) {
-                        if (data.status == 1) {
-                            return `<label class="switch">
-                                         <input type="checkbox" data-id="${data.id}" id="status" checked>
-                                         <span class="slider round"></span>
-                                    </label>`
 
-                        } else {
-                            return `<label class="switch">
-                                         <input type="checkbox" data-id="${data.id}" id="status">
-                                         <span class="slider round"></span>
-                                    </label>`
-
-
-                        }
-
-
-                    }
-                },
 
                 {
                     'data': null,

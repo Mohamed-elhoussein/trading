@@ -23,11 +23,11 @@ class DatabaseSeeder extends Seeder
         // ]);
 
 
-            // User::create([
-            //     "name"=>"mohamed",
-            //     "email"=>"mohamed@y.com",
-            //     "password"=>Hash::make(12345),
-            // ]);
+            User::create([
+                "name"=>"mohamed",
+                "email"=>"mohamed@y.com",
+                "password"=>Hash::make(12345),
+            ]);
 
 
         // DB::table('order_status')->insert([

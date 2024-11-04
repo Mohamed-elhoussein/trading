@@ -2,15 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\wallet;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Currancy extends Model
 {
     use HasFactory;
     protected $guarded=['id'];
-    public function accounts(){
-        return $this->hasMany(Account::class,'customer_id');
+    protected $table="currances";
+
+    public function wallet()
+    {
+        return $this->hasMany(wallet::class);
     }
+
+
+    // public function wallet()
+    // {
+    //     return $this->belongsTo(wallet::class);
+    // }
 
 }
