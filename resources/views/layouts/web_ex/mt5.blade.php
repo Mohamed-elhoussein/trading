@@ -1,78 +1,64 @@
 <script>
     window.currentPrices = {};
-    const user = "{{ env('MT5_USER') }}";
-    const password = "{{ env('MT5_PASSWORD') }}";
-    const host = "{{ env('MT5_HOST') }}";
-    const port = "{{ env('MT5_PORT') }}";
-
-
-
-
-    async function connectToAPI() {
-        try {
-            const response = await fetch(`https://mt5.mtapi.io/Connect?user=${user}&password=${password}&host=${host}&port=${port}`);
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const id = await response.text();
-            console.log("ID received:", id);
-            createWebSocket(id);
-
-        } catch (error) {
-            console.error("Error connecting to API:", error);
-        }
-    }
-
-
-
-
-
-
-
-
-    // function subscribeToSymbols(id) {
-    //     fetch(`https://mt5.mtapi.io/SubscribeMany?id=${id}&symbols=XAUUSD,XAGUSD`)
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('Network response was not ok');
-    //             }
-    //             console.log("Subscribed to symbols successfully");
-    //             createWebSocket(id);
-    //         })
-    //         .catch(error => {
-    //             console.error("Error subscribing to symbols:", error);
-    //         });
-    // }
-
-
-
-
 
 
     let ws;
 
-    function createWebSocket(id) {
-        const wsUrl = `wss://mt5.mtapi.io/OnQuote?id=${id}`;
-        ws = new WebSocket(wsUrl);
+async function connectToAPI() {
+    try {
+        // Request the backend to authenticate and get the connection ID
+        const response = await fetch('/api/trading/connect');
 
-        ws.onopen = function() {
-            // console.log("WebSocket connection established");
-        };
+        if (!response.ok) {
+            throw new Error('Connection failed');
+        }
 
-        ws.onmessage = function(event) {
-            const data = JSON.parse(event.data);
-            console.log("Received data:", data);
+        const data = await response.json();
+        const id = data.id;
+        // console.log("Received connection ID:", id);
 
-            if (data.type === 'Quote' && data.data) {
-                const symbol = data.data.symbol;
-                const bid = data.data.bid;
-                const ask = data.data.ask;
+        subscribeToSymbols(id);
+    } catch (error) {
+        console.error("Error connecting to API:", error);
+    }
+}
 
-                // console.log(`Symbol: ${symbol}, Bid: ${bid}, Ask: ${ask}`);
-                updatePrices(symbol, bid, ask);
-                // تحديث الأسعار //
+async function subscribeToSymbols(id) {
+    try {
+        const response = await fetch(`/api/trading/subscribe/${id}`);
+
+        if (!response.ok) {
+            throw new Error('Subscription failed');
+        }
+
+        const data = await response.json();
+        console.log(data.message); // Successfully subscribed
+
+        createWebSocket(id);
+    } catch (error) {
+        console.error("Error subscribing to symbols:", error);
+    }
+}
+
+function createWebSocket(id) {
+    const wsUrl = `wss://mt5.mtapi.io/OnQuote?id=${id}`;
+    ws = new WebSocket(wsUrl);
+
+    ws.onopen = function() {
+        console.log("WebSocket connection established");
+    };
+
+    ws.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        // console.log("Received data:", data);
+
+        if (data.type === 'Quote' && data.data) {
+            const symbol = data.data.symbol;
+            const bid = data.data.bid;
+            const ask = data.data.ask;
+
+            console.log(`Symbol: ${symbol}, Bid: ${bid}, Ask: ${ask}`);
+            updatePrices(symbol, bid, ask);
                 var xau_Bid = document.getElementById('xau-Bid')
                 var xau_ask = document.getElementById('xau-ask')
 
@@ -90,21 +76,144 @@
 
 
 
-            }
-        };
+        }
+    };
 
-        ws.onclose = function(event) {
-            console.warn("WebSocket connection closed:", event);
-            // حاول إعادة الاتصال بعد فترة
-            setTimeout(() => {
-                console.log("Attempting to reconnect...");
-                connectToAPI(); // أعيد الاتصال بـ API لجلب معرف جديد
-            }, 2000); // إعادة الاتصال بعد 2 ثوانٍ
-        };
+    ws.onclose = function(event) {
+        console.warn("WebSocket connection closed:", event);
+        setTimeout(() => {
+            console.log("Reconnecting...");
+            connectToAPI();
+        }, 2000);
+    };
 
-        ws.onerror = function(error) {
-            // console.error("WebSocket error:", error);
-        };
+    ws.onerror = function(error) {
+        console.error("WebSocket error:", error);
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const user = "{{ env('MT5_USER') }}";
+    // const password = "{{ env('MT5_PASSWORD') }}";
+    // const host = "{{ env('MT5_HOST') }}";
+    // const port = "{{ env('MT5_PORT') }}";
+
+
+
+
+    // async function connectToAPI() {
+    //     try {
+    //         const response = await fetch(`https://mt5.mtapi.io/Connect?user=${user}&password=${password}&host=${host}&port=${port}`);
+
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
+
+    //         const id = await response.text();
+    //         console.log("ID received:", id);
+    //         subscribeToSymbols(id)
+    //         // getAvailableSymbols(id);
+    //     } catch (error) {
+    //         console.error("Error connecting to API:", error);
+    //     }
+    // }
+
+
+
+
+
+
+
+
+
+
+    //  function subscribeToSymbols(id) {
+    //          fetch(`https://mt5.mtapi.io/SubscribeMany?id=${id}&symbols=XAUUSD,XAGUSD`)
+    //              .then(response => {
+    //                  if (!response.ok) {
+    //                      throw new Error('Network response was not ok');
+    //                  }
+    //                  console.log("Subscribed to symbols successfully");
+    //                  console.log(id);
+
+    //                  createWebSocket(id);
+    //              })
+    //              .catch(error => {
+    //                  console.error("Error subscribing to symbols:", error);
+    //              });
+    //      }
+
+
+
+
+
+
+
+    // let ws;
+
+    // function createWebSocket(id) {
+    //     const wsUrl = `wss://mt5.mtapi.io/OnQuote?id=${id}`;
+    //     ws = new WebSocket(wsUrl);
+
+    //     ws.onopen = function() {
+    //         // console.log("WebSocket connection established");
+    //     };
+
+    //     ws.onmessage = function(event) {
+    //         const data = JSON.parse(event.data);
+    //         console.log("Received data:", data);
+
+    //         if (data.type === 'Quote' && data.data) {
+    //             const symbol = data.data.symbol;
+    //             const bid = data.data.bid;
+    //             const ask = data.data.ask;
+
+    //             console.log(`Symbol: ${symbol}, Bid: ${bid}, Ask: ${ask}`);
+    //             updatePrices(symbol, bid, ask);
+    //             // تحديث الأسعار //
+    //             var xau_Bid = document.getElementById('xau-Bid')
+    //             var xau_ask = document.getElementById('xau-ask')
+
+    //             var xag_Bid = document.getElementById('xag-Bid')
+    //             var xag_ask = document.getElementById('xag-ask')
+
+    //             if (symbol === 'XAUUSD'  && xau_Bid && xau_ask) {
+    //                 xau_Bid.innerHTML  = ` ${bid}`;
+    //                 xau_ask.innerHTML  = ` ${ask}`;
+
+    //             } else if (symbol === 'XAGUSD' && xag_Bid && xag_ask ) {
+    //                 xag_Bid.innerHTML  = `${bid}`;
+    //                 xag_ask.innerHTML  = `${ask}`;
+    //             }
+
+
+
+    //         }
+    //     };
+
+    //     ws.onclose = function(event) {
+    //         console.warn("WebSocket connection closed:", event);
+    //         // حاول إعادة الاتصال بعد فترة
+    //         setTimeout(() => {
+    //             console.log("Attempting to reconnect...");
+    //             connectToAPI(); // أعيد الاتصال بـ API لجلب معرف جديد
+    //         }, 2000); // إعادة الاتصال بعد 2 ثوانٍ
+    //     };
+
+    //     ws.onerror = function(error) {
+    //         console.error("WebSocket error:", error);
+    //     };
 
 
 
@@ -250,3 +359,7 @@ function updatePrices(symbol, bid, ask) {
     sendOrder(id, symbol, operation, volume);
 
     </script> --}}
+
+
+
+

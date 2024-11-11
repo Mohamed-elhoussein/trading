@@ -26,23 +26,18 @@ class OrdersController extends Controller
 
     public function index(Request $request)
     {
-        // $orders = Order::with(['customer', 'stock'])
-        // ->selectRaw('*, (quantity * price) AS total_price')
-        // ->get();
         $customer=Customer::get();
         $orders=Order::get();
-        // $stock=tradingstock::get();
-        // return view('admin.orders.index', ['orders' => $orders,'customer'=>$customer,"stock"=>$stock]);
         return view('admin.orders.index',compact('customer',"orders"));
     }
+
+
 
     public function getPriceStock($id){
         $priceStock = tradingstock::where("id", $id)->first("price");
         return response()->json($priceStock);
 
     }
-
-
 
 
 
@@ -55,14 +50,10 @@ class OrdersController extends Controller
         $total = $request->total_price;
 
         // البحث عن المحفظة
-        $dataUser = wallet::where("customer_id", $customer_id)->first();
-
-        // التحقق من وجود المستخدم والمحفظة
-        if (!$dataUser) {
-         Toastr::error("user not found");
-        }
+        $dataUser=wallet::CheckAmountFound($request);
 
         $userAmount = $dataUser->current_amount;
+
 
         // التحقق مما إذا كان المستخدم لديه ما يكفي من المال
         if ($userAmount >= $total) {
@@ -70,6 +61,7 @@ class OrdersController extends Controller
             DB::transaction(function () use ($request, $dataUser, $total) {
                 // إنشاء الطلب
                 $order = order::create($request->toArray());
+
                 $newAmountUser = $dataUser->current_amount - $total;
 
                 // تحديث المبلغ في المحفظة
@@ -83,10 +75,11 @@ class OrdersController extends Controller
                 ]);
 
                 // إدخال تاريخ الطلب
-                oredr_history::InsertHistory($order->id);
+                $trading_type="local";
+                oredr_history::InsertHistory($order, $order->id ,$trading_type ,"open");
             });
 
-            Toastr::error("success create Order");
+            Toastr::success("success create Order");
 
         } else {
             Toastr::error("Your amount is not enough to create an order.");
@@ -104,28 +97,37 @@ class OrdersController extends Controller
     public function update (Request $request)
     {
         // return $request;
-        $oredrStatus   =$request->order_status;
+        $orderStatus   =$request->order_status;
         $id            =$request->order_id;
         $current_price =$request->current_price;
+        $data=order::where("id",$id);
+        $order=$data->where("delivery","0")->first();
 
+        if (!$order) {
+            return Toastr::error("Order not found or already delivered.");
+        }
 
-        $delivery  = $oredrStatus=="closed"?"1":"0";
-        $operation = $oredrStatus=="closed"?"sells":"buy";
-        $request["delivery"]=$delivery;
-        $request["total_price"]=$current_price;
+        if($orderStatus!=="closed"){
+            return Toastr::error("The order already Opening");
 
+        }
+            $closePrice = $current_price / $order->volume; // لحساب سعر الاونصه في حاله الغلق
+            $profit     = $current_price - $order->total_price; // حساب الربح
 
-        $oredr=order::where("id",$id)->where("delivery","0")->first();
-        if($oredr){
-            $oredr->update([
-                "operation"=>$operation,
-                "total_price"  =>$current_price,
-                "order_status" =>$oredrStatus,
-                "delivery"=>$delivery
-            ]);
+          if ($orderStatus == "closed") {
+                $order->update([
+                    'operation'=>'Sell',
+                    'closePrice' => $closePrice, // حفظ سعر الإغلاق
+                    'total_price' => $current_price,
+                    'profit' => $profit, // حفظ الربح
+                    'order_status'=>'closed',
+                    'delivery' => "1", // تحديث حالة التسليم
+                ]);
 
-            oredr_history::InsertHistory($id,$oredrStatus);
-            Toastr::success("successfully updated");
+            $newData = $order->fresh();
+            wallet::WalletAccount($current_price , $profit );
+            oredr_history::InsertHistory($newData , $id  , "local" , "closed");
+            Toastr::success("successfully close order");
         }else{
             Toastr::error("You cannot modify the transaction. The transaction has expired");
         }
@@ -140,8 +142,6 @@ class OrdersController extends Controller
     {
         $order=order::where("id",$id)->first();
         $oredrStatus="Deleted Order";
-        oredr_history::InsertHistory($id,$oredrStatus);
-
         if($order){
             $order->delete();
             Toastr::success("successfully Deleted Order");

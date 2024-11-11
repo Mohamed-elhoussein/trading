@@ -16,9 +16,8 @@ class WalletController extends Controller
     public function index()
     {
         $customer=Customer::get();
-        $currancy=Currancy::get();
         $wallets=wallet::with("currancy","customer")->get();
-        return view('admin.Wallet.list',compact('customer','currancy','wallets'));
+        return view('admin.Wallet.list',compact('customer','wallets'));
     }
 
 
@@ -30,19 +29,16 @@ class WalletController extends Controller
 
         $request->validate([
             'customer_id_' => 'required|exists:customers,id', // تأكد من وجود المستخدم
-            'curranc_id_' => 'required|exists:currances,id', // تأكد من وجود العملة
             'amount'      => 'required|numeric|min:0',
         ]);
 
         // البحث عن المحفظة
         $wallet = Wallet::where('customer_id', $request->customer_id_)
-                         ->where('curranc_id', $request->curranc_id_)
                          ->first();
 
         if (!$wallet) {
             $wallet = Wallet::create([
                 'customer_id'   => $request->customer_id_,
-                'curranc_id'    => $request->curranc_id_,
                 'current_amount' => $request->amount,
                 'opend'         => $request->amount,
             ]);

@@ -17,18 +17,6 @@
                     @endforeach
                 </select>
               </div>
-
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Access</label>
-                <select name="curranc_id " class="form-control" id="exampleFormControlSelect1">
-                    @foreach ($currancy as $currancy)
-                    <option value="{{ $currancy->id }}" >{{ $currancy->name }}</option>
-                    @endforeach
-                </select>
-              </div>
-
-
-
             <div class="form-group">
               <label for="exampleInputEmail1">amount</label>
               <input type="number" name="amount" placeholder="amount"  class="form-control" id="exampleInputEmail1">

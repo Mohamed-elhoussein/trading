@@ -18,10 +18,10 @@ class Mt5Service{
 
     public function __construct()
     {
-        $this->user     =env('MT5_USER');
-        $this->password =env('MT5_PASSWORD');
-        $this->host     =env('MT5_HOST');
-        $this->port     =env('MT5_PORT');
+        $this->user     = env('MT5_USER');
+        $this->password = env('MT5_PASSWORD');
+        $this->host     = env('MT5_HOST');
+        $this->port     = env('MT5_PORT');
 
     }
 

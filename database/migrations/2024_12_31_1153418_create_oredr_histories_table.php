@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('oredr_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
-            $table->string('action',400);
+            $table->string('action');
+            $table->string('do_by',200);
+            $table->json('data');
+            $table->enum('trading_type', ['local', 'metatrade'])->default('local');
             $table->foreignId('customer_id')->nullable()->constrained('customers')->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();

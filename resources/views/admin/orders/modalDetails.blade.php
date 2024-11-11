@@ -27,6 +27,9 @@
                         <th scope="col">#</th>
                         <th scope="col">Order Id</th>
                         <th scope="col">Action </th>
+                        <th scope="col">data</th>
+                        <th scope="col">do by</th>
+                        <th scope="col">trading type</th>
                         <th scope="col">Customer Id</th>
                         <th scope="col">User Id</th>
                         <th scope="col">Date</th>

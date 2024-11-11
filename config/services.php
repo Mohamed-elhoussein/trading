@@ -30,5 +30,12 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    
+    'mt5' => [
+      'user' => env('MT5_USER'),
+      'password' => env('MT5_PASSWORD'),
+      'host' => env('MT5_HOST'),
+      'port' => env('MT5_PORT'),
+  ]
 
 ];

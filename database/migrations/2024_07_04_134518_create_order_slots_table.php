@@ -17,7 +17,6 @@ return new class extends Migration
             $table->dateTime('duration');
             $table->string('address',300);
             $table->boolean('type')->default(false);
-
             $table->timestamps();
         });
     }

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
-            $table->foreignId('curranc_id')->constrained('currances')->onDelete('cascade');
             $table->decimal('opend', 15, 2)->default(0.00);
             $table->decimal('current_amount', 15, 2)->default(0.00);
             $table->timestamps();

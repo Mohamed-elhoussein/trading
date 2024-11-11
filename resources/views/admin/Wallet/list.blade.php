@@ -61,7 +61,7 @@ Stocks List
                             <tr>
                                 <td>{{ $wallet->id }}</td>
                                 <td>{{ $wallet->customer->name }}</td>
-                                <td>{{ $wallet->currancy->name }}</td>
+                                <td>Dollar</td>
                                 <td>{{ $wallet->opend }}</td>
                                 <td>{{ $wallet->current_amount }}</td>
                                 <td>{{ $wallet->created_at->format("Y-m-d")}}</td>

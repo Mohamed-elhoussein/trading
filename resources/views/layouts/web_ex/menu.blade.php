@@ -33,7 +33,7 @@
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button"
+                    <a class="nav-link menu-link" href="{{ route('dashboard.index') }}" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                     </a>
@@ -62,7 +62,7 @@
 
 
 
-
+{{--
                 <li class="nav-item">
                     <a class="nav-link menu-link   @if(request()->is('*/dashboard/period/global/*')) active
                         @else
@@ -102,13 +102,13 @@
 
                         </ul>
                     </div>
-                </li>
+                </li> --}}
 
 
 
 
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link   @if(request()->is('*/dashboard/programs/*')) active
                         @else
                         collapsed
@@ -148,18 +148,18 @@
                         </ul>
                     </div>
                 </li>
-                <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Pages</span></li>
+                <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Pages</span></li> --}}
 
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link @if(request()->is('*/interest/calculator/index')) active
                         @else
 
                         @endif" href="{{ route('interest.calculator.index') }}">
                         <i class='bx bxs-calculator'></i><span data-key="t-widgets">Interest Calculator</span>
                     </a>
-                </li>
-
+                </li> --}}
+{{--
                 <li class="nav-item">
                     <a class="nav-link menu-link @if(request()->is('*/dashboard/programs/types/list')) active
                         @else
@@ -168,6 +168,7 @@
                         <i class='bx bx-list-ol'></i><span data-key="t-widgets">Programs types</span>
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link menu-link @if(request()->is('*/dashboard/programs/fields/list')) active
                         @else
@@ -175,15 +176,16 @@
                         @endif" href="{{ route('fields.index') }}">
                         <i class='bx bx-list-ol'></i><span data-key="t-widgets">Fields</span>
                     </a>
-                </li>
-                <li class="nav-item">
+                </li> --}}
+
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link @if(request()->is('*/dashboard/currency/list')) active
                         @else
 
                         @endif" href="{{ route('currency.index') }}">
                         <i class='bx bx-dollar'></i><span data-key="t-widgets">currency</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="nav-item">
                     <a class="nav-link menu-link @if(request()->is('*/dashboard/country/list')) active

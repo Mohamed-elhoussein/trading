@@ -133,9 +133,14 @@ Stocks List
                         <tr>
                             <th scope="row">#SSL</th>
                             <th>customer id</th>
-                            <th>stock id</th>
+                            <th>symbol</th>
+                            <th>operation</th>
                             <th>volume</th>
+                            <th>openPrice</th>
+                            <th>closePrice</th>
                             <th>total amount</th>
+                            <th>profit</th>
+                            <th>trading_type</th>
                             <th>order status</th>
                             <th>Delivery</th>
                             <th>shipping address</th>
@@ -156,13 +161,35 @@ Stocks List
                                     {{ $order->symbol }}
                             </td>
 
-                            <td class="volume" stock-id="{{ $order->symbol }}">
+                            <td class="operation" >
+                                    {{ $order->operation }}
+                            </td>
+
+                            <td class="volume" >
                                     {{ $order->volume }}
                             </td>
 
-                            <td >
+                            <td class="openPrice" >
+                                    {{ $order->openPrice }}
+                            </td>
+
+                            <td class="closePrice" >
+                                    {{ $order->closePrice }}
+                            </td>
+
+                            <td class="totalPrice">
                                 {{ $order->total_price }}
                             </td>
+
+                            <td class="profit">
+                                {{ $order->profit }}
+                            </td>
+
+                            <td class="trading_type">
+                                {{ $order->trading_type }}
+                            </td>
+
+
 
                             <td class="order_status">
                                 {{ $order->order_status }}

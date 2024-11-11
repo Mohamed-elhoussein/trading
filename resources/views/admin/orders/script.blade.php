@@ -99,6 +99,8 @@ window.volume = {};
         const dataToSend = {
             volume: volume,
             total_price: total_price,
+            profit:0,
+            openPrice: total_price / volume
         };
 
         // دمج البيانات المدخلة مع القيم المحسوبة
@@ -113,6 +115,7 @@ window.volume = {};
             data: dataToSend,
             success: function(response) {
                 console.log("Response:", response);
+                window.location.reload();
                 // يمكنك هنا إضافة رسالة نجاح للمستخدم
             },
             error: function(error) {
@@ -206,7 +209,7 @@ window.volume = {};
         const customerName = $(this).closest('tr').find('.customer_id').text();
         const stockSymbol = $(this).closest('tr').find('.stock_id').text().trim();
         const volume = parseFloat($(this).closest('tr').find('.volume').text().trim()); // تحويل القيمة إلى عدد
-        const totalPrice = parseFloat($(this).closest('tr').find('td:nth-child(5)').text().trim());
+        const totalPrice = parseFloat($(this).closest('tr').find('.totalPrice').text().trim());
         const orderStatus = $(this).closest('tr').find('.order_status').text().trim();
         const deliveryStatus = $(this).closest('tr').find('td:nth-child(7)').text();
         const shippingAddress = $(this).closest('tr').find('.shipping_address').text();
@@ -219,6 +222,7 @@ window.volume = {};
         var current_price = "";
         if (stockSymbol === "XAGUSD" && xagBid) {
 
+                console.log(xagBid);
 
              current_price = volume * xagBid;
             $('#currentPrice').text(current_price);
@@ -250,16 +254,19 @@ window.volume = {};
             e.preventDefault();
 
             var order_status=$("#order_status").val();
-
+            const openPrice = window.totalPrice.total;
             $.ajax({
                 method: 'POST',
                 url:path,
                 data:{
                     order_status:order_status,
                     current_price:current_price,
-                    order_id:order_id
+                    order_id:order_id,
+                    openPrice: openPrice,
+
                 },
                 success:function(data){
+                    // console.log(data);
                     window.location.reload();
 
                 },
@@ -329,7 +336,7 @@ window.volume = {};
 
 
 {{-- script close Order --}}
-<script>
+{{-- <script>
     $(document).ready(function(){
         $("#CloseTrading_mt5").click(function(e){
             e.preventDefault();
@@ -360,26 +367,8 @@ window.volume = {};
 
         })
     })
-</script>
+</script> --}}
 {{-- script close Order --}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -400,15 +389,35 @@ window.volume = {};
                 {
                     var orderDetails = '';
                     response.forEach(function(item) {
+
+
+                        console.log(item);
                         const createdAt = new Date(item.created_at);
                         const formattedDate = createdAt.toISOString().slice(0, 19).replace("T", " ");
+                        var data = item.data ? JSON.parse(item.data) : {}; // تحويل الـ string إلى JSON
+                        var formattedData = `
+                            <ul>
+                                <li><strong>Message:</strong> ${data.message || 'N/A'}</li>
+                                <li><strong>Ticket:</strong> ${data.ticket ?? 'N/A'}</li>
+                                <li><strong>Profit:</strong> ${data.profit ?? 'N/A'}</li>
+                                <li><strong>Volume:</strong> ${data.volume ?? 'N/A'}</li>
+                                <li><strong>Open Price:</strong> ${data.openPrice ?? 'N/A'}</li>
+                                <li><strong>Close Price:</strong> ${data.ClosePrice ?? 'N/A'}</li>
+                                <li><strong>Symbol:</strong> ${data.symbol ?? 'N/A'}</li>
+                                <li><strong>State:</strong> ${data.state ?? 'N/A'}</li>
+                            </ul>
+                        `;
+
                         orderDetails += `
                             <tr>
                                 <td>${item.id}</td>
                                 <td>${item.order_id}</td>
                                 <td  style="white-space: wrap; overflow: hidden; max-width: 100px;">${item.action}</td>
-                                <td>${item.customer_id ??""}</td>
-                                <td>${item.user_id??"null"}</td>
+                                <td>${formattedData}</td>
+                                <td>${item.do_by}</td>
+                                <td>${item.trading_type}</td>
+                                <td>${item.customer ?item.customer.name:""}</td>
+                                <td>${item.user ? item.user.name : 'N/A'}</td>
                                 <td>${formattedDate}</td>
 
                             </tr>
