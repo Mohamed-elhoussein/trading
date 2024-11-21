@@ -15,8 +15,8 @@ class stocksController extends Controller
      */
     public function index()
     {
-        $stocks=tradingstock::get();
-        return view("admin.Stocks.list",compact('stocks'));
+        // $stocks=tradingstock::get();
+        return view("admin.Stocks.list");
     }
 
 

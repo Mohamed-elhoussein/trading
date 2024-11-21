@@ -22,7 +22,7 @@ class SettingController extends Controller
             return view('admin.Setting.list',compact('setting'));
 
         }
-        $setting="";
+        $setting=[];
         return view('admin.Setting.list',compact('setting'));
 
 

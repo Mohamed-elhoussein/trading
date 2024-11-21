@@ -14,23 +14,23 @@
             <form method="post" action="{{ route('updateCustomer') }}" style="width: 90%;margin:auto;">
                 <div class="form-group">
                     @csrf
-                  <label for="exampleInputEmail1">name</label>
+                  <label for="exampleInputEmail1">{{ __("name") }}</label>
                   <input type="text" name="name" placeholder="name"  class="form-control U_name" id="exampleInputEmail1">
                 </div>
                 <input type="hidden" name="id" id="customer_id">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
+                    <label for="exampleInputEmail1">{{ __("Email") }}</label>
                     <input type="email" name="email" placeholder="email" class="form-control U_email" id="exampleInputEmail1" >
                   </div>
 
 
                     <div class="form-group">
-                  <label for="exampleInputEmail1">Phone</label>
+                  <label for="exampleInputEmail1">{{ __("Phone") }}</label>
                   <input type="text" name="phone" placeholder="phone" class="form-control U_phone" id="exampleInputEmail1" >
                 </div>
 
                 <div class="form-group">
-                  <label for="exampleFormControlSelect1">Access</label>
+                  <label for="exampleFormControlSelect1">{{ __("Country") }}</label>
                   <select name="country_id" class="form-control" id="exampleFormControlSelect1">
                     @php
                          $locale = app()->getLocale();

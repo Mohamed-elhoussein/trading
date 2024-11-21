@@ -15,11 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/d', function () {
-    return view('welcome');
+
+
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+] , function() {
+    Route::get('/', function() {
+        return view('welcome');
+    });
+    require __DIR__.'/auth.php';
+    Route::get('/unoth',[UsersController::class,'unoth'])->name('unoth');
 });
 
 
 
-require __DIR__.'/auth.php';
-Route::get('/unoth',[UsersController::class,'unoth'])->name('unoth');
+

@@ -212,13 +212,13 @@ Users List
                     <thead>
                         <tr>
                             <th scope="row">#SSL</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Status</th>
+                            <th>{{ __("name") }}</th>
+                            <th>{{ __("Email") }}</th>
+                            <th>{{ __("Status") }}</th>
 
-                            <th>Logo</th>
-                            <th>Action</th>
-                            <th>Created At</th>
+                            <th>{{ __("Logo") }}</th>
+                            <th>{{ __("Action") }}</th>
+                            <th>{{ __("Created At") }}</th>
                         </tr>
                     </thead>
                     <tbody class="text-center">

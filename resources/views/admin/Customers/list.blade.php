@@ -22,7 +22,7 @@ Customers List
                 <div class="row">
                     <!-- Title Section -->
                     <h5 class="card-title mb-0 col-sm-8 col-md-10">
-                        Customers List
+                        {{ app()->getlocale()=="en"?"Customers List":"قائمه العملاء" }}
                     </h5>
 
                     <!-- Buttons Section -->
@@ -47,15 +47,15 @@ Customers List
                     <thead>
                         <tr>
                             <th scope="row">#SSL</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Country</th>
-                            <th>Avtar</th>
-                            <th>Action</th>
+                            <th>{{ __('name') }}</th>
+                            <th>{{ __("Email") }}</th>
+                            <th>{{ __("Phone") }}</th>
+                            <th>{{ __("Countries") }}</th>
+                            <th>{{ __("Avatar") }}</th>
+                            <th>{{ __("Action") }}</th>
 
-                            <th>email verified</th>
-                            <th>Created At</th>
+                            <th>{{ __("Email Verified") }}</th>
+                            <th>{{ __("Created At") }}</th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
@@ -87,8 +87,8 @@ var table = $('#alternative-pagination').DataTable({
                 return meta.row + 1;
             }
         },
-        { 'data' : 'name'  ,className: 'name-column' },
-        { 'data' : 'email' , className: 'email-column'},
+        { 'data' : 'name'  , className: 'name-column'   },
+        { 'data' : 'email' , className: 'email-column' },
         { 'data' : 'phone' , className: 'phone-column' },
 
         { 'data': null,
@@ -103,6 +103,7 @@ var table = $('#alternative-pagination').DataTable({
          {
              'data': null,
              render: function(data, type, row) {
+
                  return `
                      <img src="{{ asset('/') }}/${data.avtar}"
                      class="small-image" style="height: 50px; width: 50px" onclick="openFullScreen(this)">
@@ -113,16 +114,18 @@ var table = $('#alternative-pagination').DataTable({
 
          { 'data': null,
             render: function(data,type,row){
+                var editText = @json(__('edit'));
+                var deleteText = @json(__('delete'));
                 var name = 'title_' + local;
                 return `<button type="button"
                 class="btn btn-primary modal_update"
                 data-bs-toggle="modal"
                 data-bs-target="#staticBackdropupdate"
                 data-customer-id="${data.id}"
-                > edit </button>
+                > ${editText} </button>
 
                 <bottom class="btn btn-danger __delete"  data-customer-id="${data.id}"   >
-                Delete
+                ${deleteText}
                 </bottom>
 
                 `;

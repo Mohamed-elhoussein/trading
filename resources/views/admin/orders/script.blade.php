@@ -211,7 +211,7 @@ window.volume = {};
         const volume = parseFloat($(this).closest('tr').find('.volume').text().trim()); // تحويل القيمة إلى عدد
         const totalPrice = parseFloat($(this).closest('tr').find('.totalPrice').text().trim());
         const orderStatus = $(this).closest('tr').find('.order_status').text().trim();
-        const deliveryStatus = $(this).closest('tr').find('td:nth-child(7)').text();
+        const deliveryStatus = $(this).closest('tr').find('.__delivery').text();
         const shippingAddress = $(this).closest('tr').find('.shipping_address').text();
 
 
@@ -336,7 +336,7 @@ window.volume = {};
 
 
 {{-- script close Order --}}
-{{-- <script>
+<script>
     $(document).ready(function(){
         $("#CloseTrading_mt5").click(function(e){
             e.preventDefault();
@@ -367,7 +367,7 @@ window.volume = {};
 
         })
     })
-</script> --}}
+</script>
 {{-- script close Order --}}
 
 

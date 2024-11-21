@@ -153,26 +153,26 @@ name="quantity" placeholder="please enter quantity" id="quantity">
 
 
             <div class="card-body" style="overflow:auto">
-                <h1>أسعار الذهب والفضة</h1>
+                <h1>{{ __("gold_and_silver_prices") }}</h1>
                 <table class="table table-striped mt-3" style="text-align: center;">
                     <thead>
                         <tr>
 
-                            <th>الاسم</th>
-                            <th>الرمز</th>
-                            <th>بيع</th>
-                            <th>شراء</th>
+                            <th>{{ __('name') }}</th>
+                            <th>{{ __('code') }}</th>
+                            <th>{{ __("sell") }}</th>
+                            <th>{{ __("buy") }}</th>
                         </tr>
                     </thead>
                     <tbody id="prices-table-body " class="text-center t_body">
                         <tr>
-                            <td>Gold</td>
+                            <td>{{ __('gold') }}</td>
                             <td>XAUUSD</td>
                             <td id="xau-Bid"></td>
                             <td id="xau-ask"></td>
                         </tr>
                         <tr>
-                            <td>seliver</td>
+                            <td>{{ __('silver') }}</td>
                             <td>XAGUSD</td>
                             <td id="xag-Bid"></td>
                             <td id="xag-ask"></td>

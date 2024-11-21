@@ -14,7 +14,7 @@ setting
                 <div class="row">
                     <!-- Title Section -->
                     <h5 class="card-title mb-0 col-sm-8 col-md-10">
-                        setting
+                        {{ __("Setting") }}
                     </h5>
 
                     <!-- Buttons Section -->
@@ -45,16 +45,16 @@ setting
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Logo</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Instagram</th>
-                                <th>WhatsApp</th>
-                                <th>Facebook</th>
-                                <th>Snapchat</th>
-                                <th>Email</th>
-                                <th>Phone Number</th>
-                                <th>Action</th>
+                                <th>{{ __("Logo")        }}</th>
+                                <th>{{ __("name")        }}</th>
+                                <th>{{ __("description") }}</th>
+                                <th>{{ __("instagram")   }}</th>
+                                <th>{{ __("whatsapp")    }}</th>
+                                <th>{{ __("facebook")    }}</th>
+                                <th>{{ __("snapchat")    }}</th>
+                                <th>{{ __("Email")       }}</th>
+                                <th>{{ __("Phone")       }}</th>
+                                <th>{{ __("Action")      }}</th>
                             </tr>
                         </thead>
                         <tbody class="text-center t_body">
@@ -82,7 +82,7 @@ setting
 
                             </tr>
                         @endforeach
-                        </tbody>
+            </tbody>
 @endsection
 
 

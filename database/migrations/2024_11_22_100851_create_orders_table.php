@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained("customers")->onDelete('cascade'); // User ID
             $table->string('symbol');
             $table->enum('operation', ['Buy', 'Sell']);
-            $table->decimal('volume', 10, 2);
+            $table->string('volume');
             $table->decimal('openPrice');
             $table->decimal('closePrice')->nullable();
             $table->decimal('total_price');

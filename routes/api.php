@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\ApisController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\Admin\Mt5\TradingController;
+use App\Http\Controllers\Trading\OpenOrderController;
 use App\Http\Controllers\Admin\Mt5\mt5ConnictionSubscribeController;
 
 /*
@@ -17,6 +19,18 @@ use App\Http\Controllers\Admin\Mt5\mt5ConnictionSubscribeController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+
+Route::controller(OpenOrderController::class)->prefix("trade")->group(function(){
+Route::get("getPrice/{symbol}","GetPrice");
+Route::post("CreateOrder","CreateOrder");
+});
+
+
+
+
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -74,4 +88,9 @@ Route::post('/api/update-prices', [PriceController::class, 'updatePrices']);
 Route::controller(mt5ConnictionSubscribeController::class)->prefix('trading')->group(function(){
     Route::get('connect'       ,  'connectToAPI');
     Route::get('subscribe/{id}',  'subscribeToSymbols');
+});
+
+Route::controller(TradingController::class)->prefix("mt5")->group(function(){
+    Route::post("sendOrder","sendOrder")->name("Trading/sendOrder");
+    Route::post("closeOrder","closeOrder")->name("Trading/closeOrder");
 });

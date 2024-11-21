@@ -1,6 +1,7 @@
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    Add Customr
+    {{ app()->getlocale()=="en"?"Add Customr":"أضافه عميل" }}
+
   </button>
 
   <!-- Modal -->
@@ -17,27 +18,27 @@
             <form method="post" action="{{ route('addCustomer') }}" style="width: 90%;margin:auto;">
                 <div class="form-group">
                     @csrf
-                  <label for="exampleInputEmail1">name</label>
+                  <label for="exampleInputEmail1">{{ __("name") }}</label>
                   <input type="text" name="name" placeholder="name"  class="form-control" id="exampleInputEmail1">
                 </div>
 
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
+                    <label for="exampleInputEmail1">{{ __("Email") }}</label>
                     <input type="email" name="email" placeholder="email" class="form-control" id="exampleInputEmail1" >
                   </div>
 
                   <div class="form-group">
-                  <label for="exampleInputEmail1">password</label>
+                  <label for="exampleInputEmail1">{{ __("Password") }}</label>
                   <input type="password" name="password"  class="form-control" id="exampleInputEmail1" placeholder="password">
                 </div>
 
                     <div class="form-group">
-                  <label for="exampleInputEmail1">Phone</label>
+                  <label for="exampleInputEmail1">{{ __("Phone") }}</label>
                   <input type="text" name="phone" placeholder="phone" class="form-control" id="exampleInputEmail1" >
                 </div>
 
                 <div class="form-group">
-                  <label for="exampleFormControlSelect1">Access</label>
+                  <label for="exampleFormControlSelect1">{{ __("Country") }}</label>
                   <select name="country_id" class="form-control" id="exampleFormControlSelect1">
                     @php
                          $locale = app()->getLocale();

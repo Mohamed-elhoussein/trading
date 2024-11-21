@@ -62,8 +62,8 @@
                                 <div class="col-lg-6">
                                     <div class="p-lg-5 p-4">
                                         <div>
-                                            <h5 class="text-primary">Welcome Back !</h5>
-                                            <p class="text-muted">Sign in to continue to Loan.</p>
+                                            <h5 class="text-primary">{{ __('welcome') }}</h5>
+                                            <p class="text-muted">{{ __('sign_in_to_continue') }}</p>
                                         </div>
 
                                         <div class="mt-4">
@@ -71,7 +71,7 @@
                                                 @csrf
 
                                                 <div class="mb-3">
-                                                    <label for="username" class="form-label">Email</label>
+                                                    <label for="username" class="form-label">{{  app()->getLocale() == 'ar' ? 'البريد الالكتروني' : 'Email' }}</label>
                                                     <input type="text" class="form-control" id="username"
                                                         placeholder="Enter Email" name="email" required>
                                                     @error('email')
@@ -81,10 +81,10 @@
 
                                                 <div class="mb-3">
                                                     <div class="float-end">
-                                                        <a href="auth-pass-reset-cover.html" class="text-muted">Forgot
-                                                            password?</a>
+                                                        <a href="auth-pass-reset-cover.html" class="text-muted">
+                                                            {{ app()->getLocale()=="en"?"Forgot password ?":" هل نسيت كلمه السر؟" }}</a>
                                                     </div>
-                                                    <label class="form-label" for="password-input">Password</label>
+                                                    <label class="form-label" for="password-input">{{ app()->getLocale()=="en"?"Password":"الرقم السري" }}</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
                                                         <input type="password" class="form-control pe-5 password-input"
                                                             name="password" placeholder="Enter password"
@@ -107,7 +107,7 @@
                                                 </div>
 
                                                 <div class="mt-4">
-                                                    <button class="btn btn-success w-100" type="submit">Sign In</button>
+                                                    <button class="btn btn-success w-100" type="submit">{{ __('login') }}</button>
                                                 </div>
 
 

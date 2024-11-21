@@ -132,20 +132,20 @@ Stocks List
                     <thead>
                         <tr>
                             <th scope="row">#SSL</th>
-                            <th>customer id</th>
-                            <th>symbol</th>
-                            <th>operation</th>
-                            <th>volume</th>
-                            <th>openPrice</th>
-                            <th>closePrice</th>
-                            <th>total amount</th>
-                            <th>profit</th>
-                            <th>trading_type</th>
-                            <th>order status</th>
-                            <th>Delivery</th>
-                            <th>shipping address</th>
-                            <th>Action</th>
-                            <th>Created At</th>
+                            <th>   {{   __("customer_name")    }}   </th>
+                            <th>   {{   __("symbol")           }}   </th>
+                            <th>   {{   __("operation")        }}   </th>
+                            <th>   {{   __("volume")           }}   </th>
+                            <th>   {{   __("openPrice")        }}   </th>
+                            <th>   {{   __("closePrice")       }}   </th>
+                            <th>   {{   __("total_amount")     }}   </th>
+                            <th>   {{   __("profit")           }}   </th>
+                            <th>   {{   __("trading_type")     }}   </th>
+                            <th>   {{   __("order_status")     }}   </th>
+                            <th>   {{   __("Delivery")         }}   </th>
+                            <th>   {{   __("shipping_address") }}   </th>
+                            <th>   {{   __("Action")           }}   </th>
+                            <th>   {{   __("Created At")       }}   </th>
                         </tr>
                     </thead>
                     <tbody class="text-center t_body">
@@ -162,7 +162,7 @@ Stocks List
                             </td>
 
                             <td class="operation" >
-                                    {{ $order->operation }}
+                                    {{ $order->operation=="Sell"?__('sell'):__("buy") }}
                             </td>
 
                             <td class="volume" >
@@ -186,17 +186,17 @@ Stocks List
                             </td>
 
                             <td class="trading_type">
-                                {{ $order->trading_type }}
+                                {{ $order->trading_type=="local"?__("local"):__("external") }}
                             </td>
 
 
 
                             <td class="order_status">
-                                {{ $order->order_status }}
+                                {{ $order->order_status=="closed"?__("closed") : __("open") }}
                             </td>
 
-                            <td class="_name">
-                                {{ $order->delivery == 1 ? 'Delivered' : 'Pending' }}
+                            <td class="__delivery">
+                                {{ $order->delivery == 1 ? __("Delivery") : __("pending") }}
                             </td>
 
                             <td class="shipping_address">

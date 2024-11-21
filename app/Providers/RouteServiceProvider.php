@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    use \Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
+
     /**
      * The path to the "home" route for your application.
      *
@@ -34,9 +36,11 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
 
-                Route::middleware(['web','auth','adminauth'])
+                Route::middleware(['web','auth','adminauth','SetLocale'])
                 ->group(base_path('routes/admin.php'));
         });
+        // RouteServiceProvider::loadCachedRoutesUsing(fn() => $this->loadCachedRoutes());
+
     }
 
     /**

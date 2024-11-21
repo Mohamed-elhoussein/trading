@@ -17,7 +17,9 @@ class Customer extends Authenticatable implements JWTSubject,MustVerifyEmail
 {
     use HasFactory,Notifiable;
     protected $guarded=['id'];
-
+    protected $casts = [
+        'password' => 'hashed',
+    ];
 
     public function getJWTIdentifier()
     {
@@ -36,7 +38,7 @@ class Customer extends Authenticatable implements JWTSubject,MustVerifyEmail
     public function wallet(){
         return $this->hasMany(wallet::class);
     }
-    
+
 
     public function accounts(){
         return $this->hasMany(Account::class,'customer_id');

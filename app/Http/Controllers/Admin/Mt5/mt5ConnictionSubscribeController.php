@@ -9,15 +9,16 @@ class mt5ConnictionSubscribeController extends Controller
 {
     public function connectToAPI()
     {
+
         try {
             // استرجاع البيانات من ملف البيئة
-            $user     = config('services.mt5.user');
-            $password = config('services.mt5.password');
-            $host     = config('services.mt5.host');
-            $port     = config('services.mt5.port');
+            $user        = config('services.mt5.user');
+            $password    = config('services.mt5.password');
+            $server      = config('services.mt5.server');
 
-            // بناء الرابط API
-            $url = "https://mt5.mtapi.io/Connect?user={$user}&password={$password}&host={$host}&port={$port}";
+
+
+            $url = "https://mt5.mtapi.io/ConnectEx?user={$user}&password={$password}&server={$server}";
 
             // إرسال الطلب إلى MT5 API
             $response = Http::get($url);
@@ -42,13 +43,23 @@ class mt5ConnictionSubscribeController extends Controller
 
             $response = Http::get($url);
 
-            if ($response->failed()) {
-                return response()->json(['error' => 'Subscription failed'], 500);
+            // تحقق من أن الاستجابة تحتوي على نتيجة صحيحة
+            if ($response->successful()) {
+                return response()->json([
+                    'message' => 'Subscribed successfully',
+                    'status' => $response->status(),
+                    'data' => $response->json() // إرسال البيانات الفعلية من الاستجابة
+                ]);
+            } else {
+                return response()->json([
+                    'error' => 'Subscription failed',
+                    'status' => $response->status(),
+                    'response' => $response->json()
+                ], 500);
             }
-
-            return response()->json(['message' => 'Subscribed successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 }

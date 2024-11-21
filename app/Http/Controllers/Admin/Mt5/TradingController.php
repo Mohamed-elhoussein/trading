@@ -19,26 +19,27 @@ class TradingController extends Controller
     public function sendOrder(sendOrderMateTradeRequest $request)
     {
 
-        // return $request;
+
+        $volume=round($request->volume,1);
         // $userAmount=wallet::CheckAmountFound($request);
 
         // الحصول على التوكن من
         $id = env('MT5_ID');
 
         // بناء الرابط لإرسال الطلب إلى API
-        $url = "https://mt5.mtapi.io/OrderSend?id={$id}&symbol={$request->Symbol}
-                &operation={$request->operation}&volume={$request->volume}";
+        $url = "https://mt5.mtapi.io/OrderSend?id={$id}&symbol={$request->Symbol}&operation={$request->operation}&volume={$volume}";
 
             // إرسال الطلب إلى API
 
             $response = Http::get($url);
 
-        if ($response->successful()) {
-            return $data = $response->json();
+            if ($response->successful()) {
 
-            // تحقق من وجود المفتاح 'ticket' في الاستجابة
-            if (isset($data['ticket'])) {
-                $value = [
+                 $data = $response->json();
+                // تحقق من وجود المفتاح 'ticket' في الاستجابة
+                if (isset($data['ticket'])) {
+
+                    $value = [
                     'message'   => 'Order sent successfully with metaTrade5',
                     'ticket'    => $data['ticket'],
                     'profit'    => $data['profit'],
@@ -52,7 +53,7 @@ class TradingController extends Controller
                     // إدراج سجل في history
                     $trading_type = "metaTrade";
                     oredr_history::InsertHistory($value , $request->orderId ,$trading_type ,"open");                    // إرجاع الاستجابة بنجاح
-                    Toastr::success('Order sent successfully'); // رسالة نجاح
+                     Toastr::success('Order sent successfully'); // رسالة نجاح
                     return response()->json($value, 200);
 
             } else {
@@ -70,42 +71,56 @@ class TradingController extends Controller
 
 public function closeOrder(Request $request)
 {
+
     // التحقق من المعلمات
         $id = env('MT5_ID');
+         $OrderData=oredr_history::where("order_id", $request->orderId)
+         ->where("trading_type","metatrade")
+         ->pluck("data")
+         ->first();
 
+
+          $lastTicket=json_decode($OrderData,true)["ticket"];
         if ($lastTicket) {
-            $ticket = json_decode($lastTicket[0]->data)->ticket; // assuming 'data' contains JSON
-            // يمكن استخدام $lastTicketValue كما تريد
-        } else {
-            // لا يوجد بيانات
-            return response()->json(['error' => 'No ticket found for this order'], 404);
-        }
-
-        // إرسال طلب لإغلاق الأمر
+            // التحقق من حالة الاستجابة
+            // إرسال طلب لإغلاق الأمر
         $response = Http::get("https://mt5.mtapi.io/OrderClose", [
             'id' => $id,
-            'ticket' => $ticket,
+            'ticket' => $lastTicket,
         ]);
 
-        // التحقق من حالة الاستجابة
         if ($response->successful()) {
-            return $response->json();
-
-            $Price=$data['closePrice'];
-    
+            $value =$response->json();
             // إدراج سجل في history
             $trading_type = "metaTrade";
-            $orderHistory = oredr_history::InsertHistory($value, $trading_type, "close" ,$profit);
+            $orderHistory = oredr_history::InsertHistory($value, $request->orderId ,$trading_type, "close" );
             return response()->json([
                 'message' => 'Order closed successfully',
                 'data' => $response->json(),
             ]);
+
         } else {
             return response()->json([
                 'message' => 'Error closing order',
                 'error' => $response->json(),
             ], $response->status());
         }
+
+
+        } else {
+            // لا يوجد بيانات
+            return response()->json(['error' => 'No ticket found for this order'], 404);
+        }
+
+
+
+
     }
+
+    
+
+
+
+
 }
 

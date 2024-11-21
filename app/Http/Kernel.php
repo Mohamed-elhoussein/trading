@@ -13,8 +13,11 @@ class Kernel extends HttpKernel
      *
      * @var array<int, class-string|string>
      */
+
+     
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
+
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
@@ -30,6 +33,8 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
+            // \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationMiddleware::class,
+            \App\Http\Middleware\SetLocale::class,
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
@@ -71,7 +76,8 @@ class Kernel extends HttpKernel
         'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
         'langmobile'=> \App\Http\Middleware\LangMobile::class,
         'adminauth'=>\App\Http\Middleware\adminauth::class,
-        
+        'SetLocale'=>\App\Http\Middleware\SetLocale::class,
+
         'check_type_account'=> \App\Http\Middleware\check_type_account::class,
 
 

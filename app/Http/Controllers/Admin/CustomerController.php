@@ -55,7 +55,7 @@ class CustomerController extends Controller
 
     public function update(Request $request)
     {
-        return $request;
+        // return $request;
         $id=$request->id;
         Customer::where("id",$id)->update($request->except("_token","submit"));
         return to_route('customer.index');
