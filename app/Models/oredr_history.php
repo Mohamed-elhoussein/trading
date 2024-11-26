@@ -32,7 +32,7 @@ class oredr_history extends Model
 
 
 
-    public static function InsertHistory($order , $id , $trading_type , $oredrStatus )
+    public static function InsertHistory($order , $id , $trading_type , $oredrStatus , $customer_id=null )
     {
 
         if (Auth::check()) {
@@ -50,8 +50,8 @@ class oredr_history extends Model
         $action = new oredr_history();
         $action->order_id = $id ;  // استخدام id أو orderId
         $action->action = $oredrStatus;
-        $action->do_by = $do_by;
-        $action->data = json_encode($order);;  // تخزين البيانات بتنسيق JSON
+        $action->do_by = $do_by??"Customer";
+        $action->data = json_encode($order);  // تخزين البيانات بتنسيق JSON
         $action->trading_type = $trading_type;  // يمكن أن يكون 'metaTrade' أو 'local' بناءً على المتطلبات
         $action->customer_id = $customer_id ?? null;  // إذا كان موجودًا
         $action->user_id = $userId ?? null;  // إذا كان موجودًا

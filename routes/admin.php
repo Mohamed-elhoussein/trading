@@ -30,7 +30,6 @@ Route::group(
 
 
 
-         require __DIR__.'/mt5.php';
 
             Route::get("walletHistory/{id}",[WalleHistorytController::class,"getWalletHistory"])->name("Wallet.History");
             Route::get("orderHistory/{id}",[OrderHistoryController::class,"getOrderHistory"])->name("order.History");

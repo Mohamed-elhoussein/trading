@@ -13,6 +13,9 @@ class WalleHistorytController extends Controller
      {
 
         $history=walletHistory::where("wallet_id",$wallet_id)->with("wallet.customer")->get();
+
         return response()->json($history);
+
+
      }
 }

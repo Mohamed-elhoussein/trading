@@ -115,7 +115,7 @@ window.volume = {};
             data: dataToSend,
             success: function(response) {
                 console.log("Response:", response);
-                window.location.reload();
+                // window.location.reload();
                 // يمكنك هنا إضافة رسالة نجاح للمستخدم
             },
             error: function(error) {
@@ -267,7 +267,7 @@ window.volume = {};
                 },
                 success:function(data){
                     // console.log(data);
-                    window.location.reload();
+                    // window.location.reload();
 
                 },
                 error:function(error){

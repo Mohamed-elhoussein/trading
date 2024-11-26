@@ -13,10 +13,14 @@ class WalletController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $customer=Customer::get();
         $wallets=wallet::with("currancy","customer")->get();
+        if($request->is("api/trading/wallet")){
+            return response()->json(["data"=>$wallets],200);
+        }
+
         return view('admin.Wallet.list',compact('customer','wallets'));
     }
 
@@ -33,8 +37,7 @@ class WalletController extends Controller
         ]);
 
         // البحث عن المحفظة
-        $wallet = Wallet::where('customer_id', $request->customer_id_)
-                         ->first();
+        $wallet = Wallet::where('customer_id', $request->customer_id_)->first();
 
         if (!$wallet) {
             $wallet = Wallet::create([
@@ -45,6 +48,7 @@ class WalletController extends Controller
         } else {
             $wallet->current_amount += $request->amount;
             $wallet->save();
+            $wallet["add_amount"] = $request->amount;
         }
 
 
@@ -53,8 +57,10 @@ class WalletController extends Controller
             'action' => 'add balance ',
             'amount' => $request->amount,
         ]);
+        if($request->is("api/trading/wallet")){
+            return response()->json(["message"=>"success open wallet","data"=>$wallet],201);
+        }
         return to_route('wallet.index');
-        // return response()->json(['message' => 'تم إضافة الأموال بنجاح']);
     }
 
     /**

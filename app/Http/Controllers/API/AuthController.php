@@ -98,7 +98,7 @@ class AuthController extends Controller
                 'phone' => [
                     'required',
                     'numeric',
-                    'regex:/^(5|6|9)[0-9]{7}$/',
+                    // 'regex:/^(5|6|9)[0-9]{7}$/',
                     'unique:customers,phone'
                 ],
                 'password' => ['required', 'string', 'min:6'],
@@ -157,12 +157,12 @@ class AuthController extends Controller
                 'status' => 0,
                 'country_id'=>$request->country_id
             ]);
-            $account=Account::create([
-                'customer_id'=>$user->id,
-                'currancy_id'=>1,
-                'balance'=>100000,
+            // $account=Account::create([
+            //     'customer_id'=>$user->id,
+            //     'currancy_id'=>1,
+            //     'balance'=>100000,
 
-            ]);
+            // ]);
 
         //    event(new Registered($user));
 

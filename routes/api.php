@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\Mt5\mt5ConnictionSubscribeController;
 |
 */
 
+require __DIR__.'/mt5.php';
 
 Route::controller(OpenOrderController::class)->prefix("trade")->group(function(){
 Route::get("getPrice/{symbol}","GetPrice");

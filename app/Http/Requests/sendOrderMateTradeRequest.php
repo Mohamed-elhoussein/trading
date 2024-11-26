@@ -23,9 +23,9 @@ class sendOrderMateTradeRequest extends FormRequest
     {
         return [
             'Symbol' => 'required|string',
-            'operation' => 'required|string|in:Buy,Sell,BuyStop,SellStop',
-            'volume' => 'required|numeric|min:0.1',
-            'orderId' => 'required|integer|exists:orders,id',
+            'operation' => 'string|in:Buy,Sell,BuyStop,SellStop',
+            'volume' => 'numeric|min:0.1',
+            'orderId' => 'integer|exists:orders,id',
         ];
     }
 }

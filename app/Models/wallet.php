@@ -30,12 +30,12 @@ class wallet extends Model
     }
 
 
-    public static function WalletAccount($current_price , $profit )
+    public static function WalletAccount($current_price , $profit ,$customer_id)
     {
 
-            $user = Auth::user() ?? 1;
+            $customer_id = Auth::user()->id ?? $customer_id;
             // جلب رصيد المحفظة الحالي
-            $wallet = wallet::where('customer_id', $user->id)->first();
+            $wallet = wallet::where('customer_id', $customer_id)->first();
 
             if ($wallet) {
                 // خصم الربح السالب من رصيد المحفظة

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Mt5;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Ratchet\Client\WebSocket;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+
 class mt5ConnictionSubscribeController extends Controller
 {
     public function connectToAPI()
@@ -50,6 +52,7 @@ class mt5ConnictionSubscribeController extends Controller
                     'status' => $response->status(),
                     'data' => $response->json() // إرسال البيانات الفعلية من الاستجابة
                 ]);
+                $this->getPrice($response->json());
             } else {
                 return response()->json([
                     'error' => 'Subscription failed',
@@ -62,4 +65,53 @@ class mt5ConnictionSubscribeController extends Controller
         }
     }
 
+
+    public function getPrice()
+    {
+
+        $id=$this->connectToAPI();
+        $id=$this->subscribeToSymbols($id);
+        try {
+            // WebSocket URL
+            $wsUrl = "wss://mt5.mtapi.io/OnQuote?id={$id}";
+
+            // الاتصال بـ WebSocket
+            connect($wsUrl)->then(function(WebSocket $conn) {
+                // فتح الاتصال بنجاح
+                echo "WebSocket connection established.\n";
+
+                // إرسال رسائل أو استقبال البيانات من WebSocket
+                $conn->on('message', function($msg) use ($conn) {
+                    echo "Received: {$msg}\n";
+
+                    // معالجة البيانات (مثال: تحويل البيانات إلى JSON)
+                    $data = json_decode($msg, true);
+                    if (isset($data['type']) && $data['type'] === 'Quote') {
+                        $symbol = $data['data']['symbol'];
+                        $bid = $data['data']['bid'];
+                        $ask = $data['data']['ask'];
+
+                        // إرجاع البيانات عبر JSON
+                        return response()->json([
+                            'symbol' => $symbol,
+                            'bid' => $bid,
+                            'ask' => $ask
+                        ]);
+                    }
+                });
+
+                // إرسال رسالة إلى الخادم (إذا لزم الأمر)
+                // $conn->send('Some message');
+            }, function ($e) {
+                // في حال فشل الاتصال بـ WebSocket
+                echo "Could not connect: {$e->getMessage()}\n";
+                return response()->json(['error' => 'Failed to connect to WebSocket'], 500);
+            });
+        } catch (\Exception $e) {
+            // التعامل مع الأخطاء
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }
+
+
