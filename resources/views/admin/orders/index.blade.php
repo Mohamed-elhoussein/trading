@@ -118,11 +118,11 @@ Stocks List
 
 
 
-@include('admin.Orders.modalDelete')
+@include('admin.Orders.modaldelete')
 
-@include('admin.Orders.modalUpdate')
+@include('admin.Orders.modalupdate')
 
-@include('admin.Orders.modalDetails')
+@include('admin.Orders.modaldetails')
 
 
             <div class="card-body" style="overflow:auto">

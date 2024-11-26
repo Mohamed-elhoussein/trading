@@ -39,12 +39,12 @@ Route::group(
 
 
             // wallet====================
-            Route::resource("wallet",WalletController::class);
+            Route::resource("wallet",walletController::class);
             // wallet====================
 
 
             // setting====================
-            Route::resource("setting",SettingController::class);
+            Route::resource("setting",settingController::class);
             // setting====================
 
 
@@ -147,7 +147,7 @@ Route::group(
             Route::get('/list',[CountryController::class,'index'])->name('country.index');
             Route::get('/dataTable',[CountryController::class,'getData'])->name('country.dataTable');
             Route::post('/store',[CountryController::class,'store'])->name('country.store');
-            Route::post('/update',[CountryController::class,'update'])->name('country.update');
+            Route::post('/update',[C4ountryController::class,'update'])->name('country.update');
             Route::get('/delete/{country}',[CountryController::class,'delete'])->name('country.delete');
             Route::put('/status/change', [CountryController::class, 'status'])->name('country.status');
 
@@ -162,7 +162,7 @@ Route::group(
         });
 
 
-        Route::prefix('orders')->group(function(){
+        Route::prefix('Orders')->group(function(){
             Route::get('/list',[OrdersController::class,'index'])->name('orders.index');
             Route::get('/getPriceStock/{id}',[OrdersController::class,'getPriceStock'])->name('getPriceStock');
             Route::post('/add',[OrdersController::class,'store'])->name('orders.store');

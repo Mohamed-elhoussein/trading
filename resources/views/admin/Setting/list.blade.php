@@ -39,7 +39,7 @@ setting
 
 
                 @include('admin.Setting.modal')
-                @include('admin.Setting.modalDelete')
+                @include('admin.Setting.modaldelete')
                 <div class="card-body" style="overflow:auto">
                     <table class="table table-striped mt-3">
                         <thead>

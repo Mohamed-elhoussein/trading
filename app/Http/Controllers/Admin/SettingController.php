@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
 use App\Http\Requests\SettingRequest;
 
-class SettingController extends Controller
+class settingController extends Controller
 {
     /**
      * Display a listing of the resource.

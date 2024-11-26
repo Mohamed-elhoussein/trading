@@ -8,7 +8,7 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class WalletController extends Controller
+class walletController extends Controller
 {
     /**
      * Display a listing of the resource.
