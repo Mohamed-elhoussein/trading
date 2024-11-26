@@ -19,11 +19,11 @@ class settingController extends Controller
         if(setting::count()==1){
             $setting=setting::get();
             $setting[0]["logo"]= asset("storage/images/")."/".$setting[0]["logo"];
-            return view('admin.Setting.list',compact('setting'));
+            return view('admin.setting.list',compact('setting'));
 
         }
         $setting=[];
-        return view('admin.Setting.list',compact('setting'));
+        return view('admin.setting.list',compact('setting'));
 
 
 

@@ -21,7 +21,7 @@ class walletController extends Controller
             return response()->json(["data"=>$wallets],200);
         }
 
-        return view('admin.Wallet.list',compact('customer','wallets'));
+        return view('admin.wallet.list',compact('customer','wallets'));
     }
 
 

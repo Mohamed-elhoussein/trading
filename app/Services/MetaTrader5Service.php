@@ -20,7 +20,7 @@ class MetaTrader5Service
     }
 
     // إتمام الاتصال بـ MT5
-    public function connect()
+    public function connectt()
     {
         $url = "https://mt5.mtapi.io/ConnectEx";
 

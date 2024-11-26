@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\Mt5\mt5ConnictionSubscribeController;
 Route::prefix("trading")->group(function(){
     Route::get('/getPrice',    [MetaTraderController::class, 'GetPriceGoldSeliver']);
     Route::get('/GetId',       [mt5ConnictionSubscribeController::class, 'connectToAPI']);
-    Route::get('/getPrice',    [mt5ConnictionSubscribeController::class, 'getPrice']);
+    // Route::get('/getPrice',    [mt5ConnictionSubscribeController::class, 'getPrice']);
     Route::get("/getOrder",    [OrdersController::class, 'index']);
     Route::post("/CreateOrder",    [OrdersController::class, 'store']);
     Route::put("/UpdateOrder",     [OrdersController::class, 'update']);

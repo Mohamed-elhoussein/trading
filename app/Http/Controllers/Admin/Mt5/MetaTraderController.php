@@ -17,7 +17,7 @@ class MetaTraderController extends Controller
 
     public function connect ()
     {
-    return $this->mt5Service->connect();
+    return $this->mt5Service->connectt();
     }
 
 

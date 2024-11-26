@@ -39,8 +39,8 @@ Stocks List
 
 
 
-                @include('admin.Wallet.modal')
-                @include('admin.Wallet.wallethistory')
+                @include('admin.wallet.modal')
+                @include('admin.wallet.wallethistory')
                 <div class="card-body" style="overflow:auto">
                     <table id="alternative-pagination"
                         class="table nowrap dt-responsive align-middle table-hover table-bordered"
