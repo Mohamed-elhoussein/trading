@@ -48,7 +48,7 @@ class TradingController extends Controller
                         $data["shipping_address"] = $request->shipping_address;
                         $data["total_price"] = $volume * $data["openPrice"];
                         $data["volume"] = $volume;
-                        $data["trading_type"] = "metaTrade5";
+                        $data["trading_type"] = "metaTrade";
 
                         // محاولة إنشاء الطلب في قاعدة البيانات
                         $order = order::create($data);
@@ -116,17 +116,21 @@ public function closeOrder(Request $request)
 
     // التحقق من المعلمات
         $id = env('MT5_ID');
-         $order=oredr_history::where("order_id", $request->orderId);
+          $order=oredr_history::where("order_id", $request->orderId);
 
-         $OrderData=$order->where("trading_type","metatrade")
+          $OrderData=$order->where("trading_type","metatrade")
          ->orderBy('created_at', 'desc')
          ->pluck("data")
          ->first();
 
+            if($OrderData){
+                $DataJson=json_decode($OrderData,true);
+                $lastTicket=$DataJson["ticket"];
 
-          $DataJson=json_decode($OrderData,true);
+            }else{
+                return response()->json(["message"=>"not found"],404);
+            }
 
-          $lastTicket=$DataJson["ticket"];
         if ($lastTicket) {
             // التحقق من حالة الاستجابة
             // إرسال طلب لإغلاق الأمر
@@ -143,10 +147,11 @@ public function closeOrder(Request $request)
 
             $price_bid=$value["closePrice"] * $DataJson["volume"];
 
-            $profit = $price_bid - $DataJson["total_price"];
-            $order->update([
+            $profit = $price_bid - $DataJson["openPrice"];
+            $orders=Order::where("id",$request->orderId);
+            $orders->update([
                 'operation'=>'Sell',
-                'closePrice' => $data["closePrice"], // حفظ سعر الإغلاق
+                'closePrice' => $value["closePrice"], // حفظ سعر الإغلاق
                 // 'total_price' => $current_price,
                 'profit' => $profit, // حفظ الربح
                 'order_status'=>'closed',

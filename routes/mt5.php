@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\admin\WalletController;
+use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\Mt5\TradingController;
 use App\Http\Controllers\Admin\OrderHistoryController;
 use App\Http\Controllers\Admin\Mt5\GoldPriceController;
@@ -24,6 +25,27 @@ Route::prefix("trading")->group(function(){
         Route::post("openOrder","sendOrder")->name("Trading/sendOrder");
         Route::post("closeOrder","closeOrder")->name("Trading/closeOrder");
     });
+
+
+
+
+
+    Route::prefix('country')->group(function(){
+        Route::get('/list',[CountryController::class,'index'])->name('country.index');
+        Route::get('/dataTable',[CountryController::class,'getData'])->name('country.dataTable');
+        Route::post('/store',[CountryController::class,'store'])->name('country.store');
+        Route::post('/update',[CountryController::class,'update'])->name('country.update');
+        Route::get('/delete/{country}',[CountryController::class,'delete'])->name('country.delete');
+        Route::put('/status/change', [CountryController::class, 'status'])->name('country.status');
+
+    });
+
+
+
+
+
+
+
 
 });
 

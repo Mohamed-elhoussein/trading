@@ -82,10 +82,11 @@ class OrdersController extends Controller
         $userAmount = $dataUser->current_amount;
 
 
+
         // التحقق مما إذا كان المستخدم لديه ما يكفي من المال
         if ($userAmount >= $total) {
             // استخدام المعاملات
-            DB::transaction(function () use ($request, $dataUser, $total) {
+            DB::transaction(function () use ($request, $dataUser, $total ,&$order) {
                 // إنشاء الطلب
                 $order = order::create($request->toArray());
 
@@ -104,8 +105,8 @@ class OrdersController extends Controller
                 // إدخال تاريخ الطلب
                 $trading_type="local";
                 oredr_history::InsertHistory($order, $order->id ,$trading_type ,"open");
-            });
 
+            });
             if($request->is("api/trading/CreateOrder")){
                 return response()->json(["message" => "Create Order successfully","data"=>$order],201);
             }

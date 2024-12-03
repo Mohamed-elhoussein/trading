@@ -147,7 +147,7 @@ Route::group(
             Route::get('/list',[CountryController::class,'index'])->name('country.index');
             Route::get('/dataTable',[CountryController::class,'getData'])->name('country.dataTable');
             Route::post('/store',[CountryController::class,'store'])->name('country.store');
-            Route::post('/update',[C4ountryController::class,'update'])->name('country.update');
+            Route::post('/update',[CountryController::class,'update'])->name('country.update');
             Route::get('/delete/{country}',[CountryController::class,'delete'])->name('country.delete');
             Route::put('/status/change', [CountryController::class, 'status'])->name('country.status');
 

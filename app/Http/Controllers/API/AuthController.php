@@ -98,7 +98,6 @@ class AuthController extends Controller
                 'phone' => [
                     'required',
                     'numeric',
-                    // 'regex:/^(5|6|9)[0-9]{7}$/',
                     'unique:customers,phone'
                 ],
                 'password' => ['required', 'string', 'min:6'],
@@ -118,7 +117,6 @@ class AuthController extends Controller
                 'email.unique' => __('validation.custom.email.unique'),
                 'phone.required' => __('validation.custom.phone.required'),
                 'phone.numeric' => __('validation.custom.phone.numeric'),
-                'phone.regex' => __('validation.custom.phone.regex'),
                 'phone.unique' => __('validation.custom.phone.unique'),
                 'password.required' => __('validation.custom.password.required'),
                 'password.string' => __('validation.custom.password.string'),
@@ -164,7 +162,7 @@ class AuthController extends Controller
 
             // ]);
 
-        //    event(new Registered($user));
+           event(new Registered($user));
 
 
             // Generate JWT token

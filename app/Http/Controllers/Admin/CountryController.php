@@ -33,11 +33,13 @@ class CountryController extends Controller
                $requestData = $request->all();
 
 
-               Countries::create($requestData);
+               $data=Countries::create($requestData);
 
 
                Toastr::success(__('Country Created Successfully'), __('Success'));
-
+                if($request->is("api/trading/country/store")){
+                    return response()->json(["message"=>"Country Created Successfully","data"=> $data],201);
+                }
                return redirect()->back();
            } catch (\Throwable $th) {
                Toastr::error(__('Try Again'), __('Error'));
@@ -59,6 +61,10 @@ class CountryController extends Controller
 
                // Display success message and redirect to index
                Toastr::success(__('Country Updated Successfully'), __('Success'));
+
+               if($request->is("api/trading/country/update")){
+                return response()->json(["message"=>"Country Updated Successfully"]);
+            }
                return redirect()->back();
            } catch (\Throwable $th) {
                // Display error message and redirect back
